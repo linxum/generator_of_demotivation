@@ -4,7 +4,7 @@
 import telebot
 import requests
 from PIL import Image, ImageDraw, ImageFont
-import scale_textsize
+import sts
 
 # bot token 
 token = '5904940309:AAGQ91eWPYObgvclRE-hPaQcj0VjhPAMBkI'
@@ -39,7 +39,7 @@ def handle_photo(message):
 	img = Image.open("photo.jpg")
 	draw = ImageDraw.Draw(img)
 
-	size = scale_textsize(custom_text, img);
+	size = sts.scale_textsize(custom_text, img);
 	font = ImageFont.truetype("Lobster-Regular.ttf", size = size)
 	W, H = img.size
 
