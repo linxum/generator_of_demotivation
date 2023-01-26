@@ -1,5 +1,3 @@
-# Write a telegram bot that takes an image and overlays text on top of it on Python
-
 # importing necessary libraries 
 import telebot
 import requests 
@@ -7,9 +5,11 @@ from PIL import Image, ImageDraw, ImageFont
 
 # bot token 
 token = '5904940309:AAGQ91eWPYObgvclRE-hPaQcj0VjhPAMBkI'
-custom_text = "вставить текст"
+
 # creating a bot object 
 bot = telebot.TeleBot(token) 
+
+custom_text = "вставить текст"
 
 def scale_size(txt, image):
 	fontsize = 1
