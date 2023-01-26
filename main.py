@@ -1,29 +1,16 @@
+# Write a telegram bot that takes an image and overlays text on top of it on Python
+
 # importing necessary libraries 
 import telebot
-import requests 
-from PIL import Image, ImageDraw, ImageFont 
+import requests
+from PIL import Image, ImageDraw, ImageFont
+import scale_textsize
 
 # bot token 
 token = '5904940309:AAGQ91eWPYObgvclRE-hPaQcj0VjhPAMBkI'
-
-# creating a bot object 
-bot = telebot.TeleBot(token) 
-
 custom_text = "вставить текст"
-
-def scale_size(txt, image):
-	fontsize = 1
-	img_fraction = 0.50
-
-	font = ImageFont.truetype("Lobster-Regular.ttf", fontsize)
-	while int(font.getlength(txt)) < img_fraction * image.size[0]:
-		# iterate until the text size is just larger than the criteria
-		fontsize += 1
-		font = ImageFont.truetype("Lobster-Regular.ttf", fontsize)
-
-	# optionally de-increment to be sure it is less than criteria
-	fontsize -= 1
-	return fontsize
+# creating a bot object 
+bot = telebot.TeleBot(token)
 
 @bot.message_handler(commands = ['start']) 
 def start(message): 
@@ -52,7 +39,7 @@ def handle_photo(message):
 	img = Image.open("photo.jpg")
 	draw = ImageDraw.Draw(img)
 
-	size = scale_size(custom_text, img);
+	size = scale_textsize(custom_text, img);
 	font = ImageFont.truetype("Lobster-Regular.ttf", size = size)
 	W, H = img.size
 
