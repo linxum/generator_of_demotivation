@@ -1,15 +1,12 @@
-# Write a telegram bot that takes an image and overlays text on top of it on Python
-
-# importing necessary libraries 
 import telebot
 import requests
 from PIL import Image, ImageDraw, ImageFont
 import sts
 
-# bot token 
+# bot token
 token = '5904940309:AAGQ91eWPYObgvclRE-hPaQcj0VjhPAMBkI'
 custom_text = "вставить текст"
-# creating a bot object 
+# creating a bot object
 bot = telebot.TeleBot(token)
 
 
@@ -28,18 +25,15 @@ def com_help(message):
 def handle_photo(message):
     global custom_text
 
-    # download the photo
     fileID = message.photo[-1].file_id
     file_info = bot.get_file(fileID)
     file = requests.get('https://api.telegram.org/file/bot{0}/{1}'.format(token, file_info.file_path))
 
     bot.reply_to(message, "Работаем!")
 
-    # save the photo
     with open("photo.jpg", 'wb') as new_file:
         new_file.write(file.content)
 
-    # open the photo
     img = Image.open("photo.jpg")
     draw = ImageDraw.Draw(img)
 
@@ -51,7 +45,6 @@ def handle_photo(message):
     img.save("photo_edited.jpg")
 
     bot.send_photo(message.chat.id, open('photo_edited.jpg', 'rb'))
-
     custom_text = "вставить текст"
 
 
