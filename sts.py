@@ -1,11 +1,11 @@
 from PIL import ImageFont
 
-def scale_textsize(txt, image):
+def scale_textsize(custom_text, img):
 	fontsize = 1
 	img_fraction = 0.50
 
 	font = ImageFont.truetype("Lobster-Regular.ttf", fontsize)
-	while int(font.getlength(txt)) < img_fraction * image.size[0]:
+	while int(font.getlength(custom_text)) < img_fraction * img.size[0]:
 		fontsize += 1
 		font = ImageFont.truetype("Lobster-Regular.ttf", fontsize)
 
