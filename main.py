@@ -5,7 +5,7 @@ import sts
 
 
 # bot token
-token = '5904940309:AAGQ91eWPYObgvclRE-hPaQcj0VjhPAMBkI'
+token = '<YOUR TOKEN>'
 custom_text = "вставить текст"
 custom_color = (255, 255, 255)
 # creating a bot object
