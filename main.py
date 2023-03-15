@@ -159,6 +159,7 @@ def create_photo(message):
     custom_text = "вставить текст"
     custom_color = (255, 255, 255)
     custom_pos = False
+    custom_font = "lobster"
 
 
 @bot.message_handler(content_types=['text'])
