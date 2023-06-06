@@ -4,7 +4,9 @@ from PIL import Image, ImageDraw, ImageFont
 import sts
 import time
 
-token = '<YOUR TOKEN>'
+import background
+
+token = '5904940309:AAGQ91eWPYObgvclRE-hPaQcj0VjhPAMBkI'
 upper_text = ""
 lower_text = ""
 custom_color = (255, 255, 255)
@@ -34,7 +36,7 @@ def com_help(message):
     bot.send_message(message.chat.id, "Изменение размера текста (по умолчанию автоматически, то есть 0)")
     bot.send_message(message.chat.id, "/size <размер>")
     time.sleep(1)
-    bot.send_message(message.chat.id, "Если хочешь текст везде, то для верхнего поля напиши текст")
+    bot.send_message(message.chat.id, "Если хочешь текст сверху, то для верхнего поля напиши текст")
     bot.send_message(message.chat.id, "/text [текст]")
     time.sleep(1)
     bot.send_message(message.chat.id, "Дальше пишешь (нижний) текст и отправляешь картику")
@@ -203,4 +205,5 @@ def setup_text(message):
     bot.reply_to(message, "Получено: " + lower_text)
 
 
+background.keep_alive()
 bot.polling()
