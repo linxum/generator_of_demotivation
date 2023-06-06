@@ -11,7 +11,6 @@ custom_font = "lobster"
 custom_pos = False
 custom_size = 0
 
-# creating a bot object
 bot = telebot.TeleBot(token)
 
 
