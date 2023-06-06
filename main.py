@@ -6,9 +6,10 @@ import time
 
 token = '5904940309:AAGQ91eWPYObgvclRE-hPaQcj0VjhPAMBkI'
 custom_text = "вставить текст"
+custom_text_1 = "вставить текст"
 custom_color = (255, 255, 255)
 custom_font = "lobster"
-custom_pos = False
+custom_pos = -1
 custom_size = 0
 
 bot = telebot.TeleBot(token)
@@ -31,10 +32,16 @@ def com_help(message):
     bot.send_message(message.chat.id, "Изменение шрифта текста (по умолчанию Lobster)")
     bot.send_message(message.chat.id, "/font [lobster] [impact] [rodchenko]")
     time.sleep(1)
-    bot.send_message(message.chat.id, "Изменение позиции текста (по умолчанию снизу)")
-    bot.send_message(message.chat.id, "/pos [внизу] [вверху]")
+    bot.send_message(message.chat.id, "Изменение размера текста (по умолчанию автоматически, то есть 0)")
+    bot.send_message(message.chat.id, "/size <размер>")
     time.sleep(1)
-    bot.send_message(message.chat.id, "Дальше пишешь текст и отправляешь картику")
+    bot.send_message(message.chat.id, "Изменение позиции текста (по умолчанию снизу)")
+    bot.send_message(message.chat.id, "/pos [внизу] [вверху] [везде]")
+    time.sleep(1)
+    bot.send_message(message.chat.id, "Если хочешь текст везде, то для верхнего поля напиши текст")
+    bot.send_message(message.chat.id, "/text [текст]")
+    time.sleep(1)
+    bot.send_message(message.chat.id, "Дальше пишешь (нижний) текст и отправляешь картику")
 
 
 def extract_arg(arg):
@@ -106,11 +113,14 @@ def setup_pos(message):
     set_pos = extract_arg(message.text)
     if set_pos:
         if set_pos[0] == "внизу" or set_pos[0] == "Внизу":
-            custom_pos = False
+            custom_pos = -1
             bot.reply_to(message, "Спускаю текст")
         elif set_pos[0] == "вверху" or set_pos[0] == "Вверху" or set_pos[0] == "сверху" or set_pos[0] == "Сверху":
-            custom_pos = True
+            custom_pos = 1
             bot.reply_to(message, "Поднимаю текст")
+        elif set_pos[0] == "везде" or set_pos[0] == "Везде":
+            custom_pos = 0
+            bot.reply_to(message, "Клонирую поле")
         else:
             bot.reply_to(message, "Не понял, повтори")
     else:
@@ -134,9 +144,19 @@ def setup_size(message):
         bot.reply_to(message, "Не понял, повтори")
 
 
+@bot.message_handler(commands=['text', 'текст'])
+def setup_sec_text(message):
+    global custom_text_1
+    set_text = message.text[6:]
+    if set_text:
+        custom_text_1 = set_text
+        print(custom_text_1)
+    bot.reply_to(message, "Получено: " + custom_text_1)
+
+
 @bot.message_handler(content_types=['photo'])
 def create_photo(message):
-    global custom_text, custom_color, custom_font, custom_pos, custom_size
+    global custom_text, custom_text_1, custom_color, custom_font, custom_pos, custom_size
     fileID = message.photo[-1].file_id
     file_info = bot.get_file(fileID)
     file = requests.get('https://api.telegram.org/file/bot{0}/{1}'.format(
@@ -168,9 +188,12 @@ def create_photo(message):
     W, H = img.size
     w, h = font.getbbox(custom_text)[2] - font.getbbox(custom_text)[0], font.getbbox(custom_text)[3]
 
-    if custom_pos:
+    if custom_pos == 1:
         draw.text(((W - w) / 2, 0), custom_text, fill=custom_color, font=font)
+    elif custom_pos == -1:
+        draw.text(((W - w) / 2, H - h), custom_text, fill=custom_color, font=font)
     else:
+        draw.text(((W - w) / 2, 0), custom_text_1, fill=custom_color, font=font)
         draw.text(((W - w) / 2, H - h), custom_text, fill=custom_color, font=font)
 
     img.save("photo_edited.jpg")
