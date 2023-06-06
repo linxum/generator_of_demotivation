@@ -4,9 +4,7 @@ from PIL import Image, ImageDraw, ImageFont
 import sts
 import time
 
-import background
-
-token = '5904940309:AAGQ91eWPYObgvclRE-hPaQcj0VjhPAMBkI'
+token = '<YOUR TOKEN>'
 upper_text = ""
 lower_text = ""
 custom_color = (255, 255, 255)
@@ -205,5 +203,4 @@ def setup_text(message):
     bot.reply_to(message, "Получено: " + lower_text)
 
 
-background.keep_alive()
 bot.polling()
